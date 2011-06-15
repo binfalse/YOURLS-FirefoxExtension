@@ -1,0 +1,6 @@
+content	yourls-shortener	chrome/content/
+content	yourls-shortener	chrome/content/ contentaccessible=yes
+overlay	chrome://browser/content/browser.xul	chrome://yourls-shortener/content/browser.xul
+locale	yourls-shortener	en-US	locale/en-US/
+skin	yourls-shortener	classic/1.0	skin/
+style	chrome://global/content/customizeToolbar.xul	chrome://yourls-shortener/skin/skin.css

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+ 
+<prefwindow title="YOURLS shortener" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="yourlsshortener.js" />
+	<prefpane label="YOURLS shortener preferences">
+		<preferences>
+			<preference id="yourls-shortener-api" name="extensions.yourls-shortener.api" type="string"/>
+			<preference id="yourls-shortener-signature" name="extensions.yourls-shortener.signature" type="string"/>
+			<preference id="yourls-shortener-usesignature" name="extensions.yourls-shortener.usesignature" type="bool"/>
+			<preference id="yourls-shortener-askforkey" name="extensions.yourls-shortener.askforkey" type="bool"/>
+		</preferences>
+		
+		<groupbox>
+			<caption label="Settings"/>
+			<grid>
+				<columns>
+					<column flex="1"/>
+					<column/>
+				</columns>
+				<rows>
+					<row>
+						<label control="api" tooltiptext="URL to the API, e.g. http://shortener.yoursite/" value="API URL"/>
+						<textbox id="api" preference="yourls-shortener-api"/>
+					</row>
+					<row>
+						<label control="signature" tooltiptext="Your signature to authenticate, e.g. 1234567890" value="Signature"/>
+						<textbox id="signature" preference="yourls-shortener-signature"/>
+					</row>
+					<row>
+						<label control="askforkey" tooltiptext="Do you want to provide keywords?" value="Ask for a keyword?"/>
+						<checkbox id="askforkey" preference="yourls-shortener-askforkey"/>
+					</row>
+					<row>
+          <spacer/>
+						<button id="test" tooltiptext="Test the config by shorten the URL http://binfalse.de" label="test configuration" onclick="YOURLSshortener.run('http://binfalse.de')"/>
+					</row>
+				</rows>
+			</grid>
+		</groupbox>	
+		
+	</prefpane>
+ 
+</prefwindow>

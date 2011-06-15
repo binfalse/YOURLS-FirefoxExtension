@@ -1,0 +1,6 @@
+#yourls-shortener-toolbar-button, #yourls-shortener-context {
+	list-style-image: url("chrome://yourls-shortener/skin/favicon.gif");
+}
+#yourls-shortener-status-bar-icon {
+	margin: 0 2px;
+}
