@@ -49,7 +49,7 @@ var YOURLSshortener = function () {
 					request.send(params);
 					if (request.status == 200 || request.status == 201)
 					{
-						if ()
+						if (request.responseText)
 						{
 							alert ('Your shorten URL:\n' + request.responseText);
 							return;
