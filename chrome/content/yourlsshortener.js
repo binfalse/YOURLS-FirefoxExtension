@@ -45,7 +45,7 @@ var YOURLSshortener = function () {
 						maxwait = 2000;
 					
 					var request = new XMLHttpRequest ();
-					request.open ("POST", api, false);
+					request.open ("POST", api, true);
 					request.setRequestHeader ("Content-type", "application/x-www-form-urlencoded");
 					request.setRequestHeader ("Content-length", params.length);
 					request.setRequestHeader ("Connection", "close");
