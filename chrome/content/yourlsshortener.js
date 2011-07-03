@@ -1,11 +1,11 @@
 var YOURLSshortener = function () {
-	var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+	var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService (Components.interfaces.nsIPrefBranch);
 	return {
 		gohome : function () {
-				var api = prefManager.getCharPref("extensions.yourls-shortener.api");
-				if (api.substr(-1) != '/')
+				var api = prefManager.getCharPref ("extensions.yourls-shortener.api");
+				if (api.substr (-1) != '/')
 					api += '/';
-				window.open(api + "admin/");
+				openUILinkIn(api + "admin/", 'tab');
 				return;
 		},
 		run : function (long) {
@@ -15,9 +15,8 @@ var YOURLSshortener = function () {
 				return;
 			}
 			
-			var error = null;
-			var api = prefManager.getCharPref("extensions.yourls-shortener.api");
-			if (api.substr(-1) != '/')
+			var api = prefManager.getCharPref ("extensions.yourls-shortener.api");
+			if (api.substr (-1) != '/')
 				api += '/';
 			api += "yourls-api.php";
 			
@@ -25,52 +24,71 @@ var YOURLSshortener = function () {
 			{
 				try
 				{
-					var params = 'action=shorturl&format=simple&url=' + long + '&signature=' + prefManager.getCharPref("extensions.yourls-shortener.signature");
+					var params = 'action=shorturl&format=simple&url=' + long + '&signature=' + prefManager.getCharPref ("extensions.yourls-shortener.signature");
 					
-					if (prefManager.getBoolPref("extensions.yourls-shortener.askforkey"))
+					if (prefManager.getBoolPref ("extensions.yourls-shortener.askforkey"))
 					{
 						var sel = "";
 						try
 						{
-							sel = content.getSelection() + "";
+							sel = content.getSelection () + "";
 						}
 						catch (e) {}
 						
-						var key = prompt("Type your keyword here (leave empty to generate)", sel.toLowerCase ());
+						var key = prompt ("Type your keyword here (leave empty to generate)", sel.toLowerCase ());
 						if (key)
 							params += '&keyword=' + key;
 					}
 					
-					var request = new XMLHttpRequest();
-					request.open("POST", api, false);
-					request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-					request.setRequestHeader("Content-length", params.length);
-					request.setRequestHeader("Connection", "close");
-					request.send(params);
-					if (request.status == 200 || request.status == 201)
-					{
-						if (request.responseText)
-						{
-							alert ('Your shorten URL:\n' + request.responseText);
+					var maxwait = 1000 * prefManager.getIntPref ("extensions.yourls-shortener.maxwait");
+					if (!maxwait || maxwait < 2000)
+						maxwait = 2000;
+					
+					var request = new XMLHttpRequest ();
+					request.open ("POST", api, false);
+					request.setRequestHeader ("Content-type", "application/x-www-form-urlencoded");
+					request.setRequestHeader ("Content-length", params.length);
+					request.setRequestHeader ("Connection", "close");
+					
+					var requestTimer = setTimeout (function () {
+						request.abort ();
+						alert ("Did not get an answer from server!\nTry again later or increase maximum waiting time.");
+						return;
+					}, maxwait);
+					request.onreadystatechange = function () {
+						if (request.readyState != 4)
 							return;
+						clearTimeout (requestTimer);
+						if (request.status == 200 || request.status == 201)
+						{
+							if (request.responseText)
+							{
+								alert ('Your shorten URL:\n' + request.responseText);
+								return;
+							}
+							else
+							{
+								alert ("Shorten failed.. Maybe invalid key!?")
+								return;
+							}
 						}
 						else
-							error = "Shorten failed.. Maybe invalid key!?"
+						{
+							alert ("API returned crap!");
+							return;
+						}
 					}
-					else
-						error = "API returned crap!";
+					
+					request.send (params);
 				}
 				catch (e) 
 				{
-					error = "Failed to start XMLHttpRequest:\n" + e.message;
+					alert ("Failed to start XMLHttpRequest:\n" + e.message);
 				}
 				
 			}
 			else 
-				error = "No API-URL specified... Check your settings!";
-			
-			if (error)
-				alert (error);
+				alert ("No API-URL specified... Check your settings!");
 		}
 	};
-}();
+} ();

@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
- 
 <prefwindow title="YOURLS shortener" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="yourlsshortener.js" />
+	<script src="yourlsshortener.js" />
 	<prefpane label="YOURLS shortener preferences">
 		<preferences>
 			<preference id="yourls-shortener-api" name="extensions.yourls-shortener.api" type="string"/>
 			<preference id="yourls-shortener-signature" name="extensions.yourls-shortener.signature" type="string"/>
 			<preference id="yourls-shortener-usesignature" name="extensions.yourls-shortener.usesignature" type="bool"/>
 			<preference id="yourls-shortener-askforkey" name="extensions.yourls-shortener.askforkey" type="bool"/>
+			<preference id="yourls-shortener-maxwait" name="extensions.yourls-shortener.maxwait" type="int"/>
 		</preferences>
 		
 		<groupbox>
@@ -24,7 +24,7 @@
 						<textbox id="api" preference="yourls-shortener-api"/>
 					</row>
 					<row>
-						<label control="signature" tooltiptext="Your signature to authenticate, e.g. 1234567890" value="Signature"/>
+						<label control="signature" tooltiptext="Your signature to authenticate at access restricted API's" value="Signature"/>
 						<textbox id="signature" preference="yourls-shortener-signature"/>
 					</row>
 					<row>
@@ -32,13 +32,11 @@
 						<checkbox id="askforkey" preference="yourls-shortener-askforkey"/>
 					</row>
 					<row>
-          <spacer/>
-						<button id="test" tooltiptext="Test the config by shorten the URL http://binfalse.de" label="test configuration" onclick="YOURLSshortener.run('http://binfalse.de')"/>
+						<label control="maxwait" tooltiptext="How much time should we spend waiting for the API to respond? Minimum is 2 seconds." value="Max wait time (seconds)"/>
+						<textbox id="maxwait" preference="yourls-shortener-maxwait"/>
 					</row>
 				</rows>
 			</grid>
 		</groupbox>	
-		
 	</prefpane>
- 
 </prefwindow>

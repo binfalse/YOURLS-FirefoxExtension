@@ -2,16 +2,15 @@
 <?xml-stylesheet href="chrome://yourls-shortener/skin/skin.css" type="text/css"?> 
 <!DOCTYPE overlay SYSTEM "chrome://yourls-shortener/locale/translations.dtd">
 <overlay id="sample" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="yourlsshortener.js" />
-  <popup id="contentAreaContextMenu">
-    <menuitem id="yourls-shortener-context" insertafter="context-bookmarkpage" label="&shorten;" tooltiptext="&shortenlong;" oncommand="YOURLSshortener.run(content.location.href);" />
-  </popup>
+	<script src="yourlsshortener.js" />
+	<popup id="contentAreaContextMenu">
+		<menuitem id="yourls-shortener-context" insertafter="context-bookmarkpage" label="&shorten;" tooltiptext="&shortenlong;" oncommand="YOURLSshortener.run(content.location.href);" />
+	</popup>
 	<statusbar id="status-bar">
 		<statusbarpanel id="yourls-shortener-status-bar-icon" class="statusbarpanel-iconic" src="chrome://yourls-shortener/skin/favicon.gif" tooltiptext="&shortenlong;" onclick="YOURLSshortener.run(content.location.href);" />
 	</statusbar>
 	<toolbarpalette id="BrowserToolbarPalette">
-		<toolbarbutton id="yourls-shortener-toolbar-button" label="&shorten;" tooltiptext="&shortener;"
-      class="toolbarbutton-1 chromeclass-toolbar-additional" type="menu">
+		<toolbarbutton id="yourls-shortener-toolbar-button" label="&shorten;" tooltiptext="&shortener;" class="toolbarbutton-1 chromeclass-toolbar-additional" type="menu">
 			<menupopup>
 				<menuitem label="&shorten;" tooltiptext="&shortenlong;" onclick="YOURLSshortener.run(content.location.href);" />
 				<menuitem label="&gohome;" onclick="YOURLSshortener.gohome();" />
