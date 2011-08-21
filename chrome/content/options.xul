@@ -35,6 +35,10 @@
 						<label control="maxwait" tooltiptext="How much time should we spend waiting for the API to respond? Minimum is 2 seconds." value="Max wait time (seconds)"/>
 						<textbox id="maxwait" preference="yourls-shortener-maxwait"/>
 					</row>
+					<row>
+						<spacer/>
+						<button id="test" tooltiptext="Test the config by shorten the URL http://binfalse.de" label="test configuration" onclick="YOURLSshortener.test()"/>
+					</row>
 				</rows>
 			</grid>
 		</groupbox>	

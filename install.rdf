@@ -3,7 +3,7 @@
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>yourls-shortener@binfalse.de</em:id>
 		<em:name>YOURLS shortener</em:name>
-		<em:version>1.1</em:version>
+		<em:version>1.2</em:version>
 		<em:type>2</em:type>
 		<em:creator>Martin Scharm</em:creator>
 		<em:description>Shorten URLs with your own YOURLS instance</em:description>
@@ -14,7 +14,7 @@
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
 				<em:minVersion>3.0</em:minVersion>
-				<em:maxVersion>5.*</em:maxVersion>
+				<em:maxVersion>6.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 	</Description>      
