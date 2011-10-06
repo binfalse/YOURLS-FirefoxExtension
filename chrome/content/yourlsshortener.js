@@ -1,6 +1,7 @@
 var YOURLSshortener = function () {
 	var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService (Components.interfaces.nsIPrefBranch);
 	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
+	var clipboard = Components.classes["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper);
 	return {
 		gohome : function () {
 				var api = prefManager.getCharPref ("extensions.yourls-shortener.api");
@@ -33,8 +34,8 @@ var YOURLSshortener = function () {
 				return;
 			}
 			
-			alert (askforkey.value);
-			alert (maxwait.value);
+			//alert (askforkey.value);
+			//alert (maxwait.value);
 			prefManager.setCharPref ("extensions.yourls-shortener.api", api.value);
 			prefManager.setCharPref ("extensions.yourls-shortener.signature", signature.value);
 			prefManager.setBoolPref ("extensions.yourls-shortener.askforkey", askforkey.checked);
@@ -59,7 +60,7 @@ var YOURLSshortener = function () {
 			{
 				try
 				{
-					var params = "action=shorturl&format=simple&url=" + long + "&signature=" + prefManager.getCharPref ("extensions.yourls-shortener.signature");
+					var params = "action=shorturl&format=simple&url=" + encodeURIComponent (long) + "&signature=" + encodeURIComponent (prefManager.getCharPref ("extensions.yourls-shortener.signature"));
 					
 					if (prefManager.getBoolPref ("extensions.yourls-shortener.askforkey"))
 					{
@@ -70,9 +71,14 @@ var YOURLSshortener = function () {
 						}
 						catch (e) {}
 						
-						var key = prompt ("Type your keyword here (leave empty to generate)", sel.toLowerCase ());
-						if (key)
-							params += "&keyword=" + key;
+						var key = {value: sel};
+						if (prompts.prompt (null, "YOURLS shortener: Keyword", "Type your keyword here (leave empty to generate)", key, null, {value: false}))
+						{
+							if (key.value)
+								params += "&keyword=" + encodeURIComponent (key.value);
+						}
+						else
+							return;
 					}
 					
 					var maxwait = 1000 * prefManager.getIntPref ("extensions.yourls-shortener.maxwait");
@@ -96,16 +102,14 @@ var YOURLSshortener = function () {
 						clearTimeout (requestTimer);
 						if ((request.status == 200 || request.status == 201) && request.responseText.match(/^\s*\S+\s*$/))
 						{
-							if (request.responseText)
-							{
-								prompts.alert(null, "YOURLS shortener: short URL", long + "\n\nis shortened by:\n\n" + request.responseText);
-								return;
-							}
-							else
-							{
-								prompts.alert(null, "YOURLS shortener: failed", "Shortening failed.. Maybe invalid key!?");
-								return;
-							}
+							prompts.alert (null, "YOURLS shortener: short URL", long + "\n\nis shortened by:\n\n" + request.responseText);
+							clipboard.copyString (request.responseText);
+							return;
+						}
+						else if ((request.status == 200 || request.status == 201) && request.responseText.match(/^\s*$/))
+						{
+							prompts.alert(null, "YOURLS shortener: failed", "Shortening failed.. Maybe chosen key already in use!?\nTry again!");
+							return;
 						}
 						else
 						{

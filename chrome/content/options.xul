@@ -32,7 +32,7 @@
 						<checkbox id="askforkey" preference="yourls-shortener-askforkey"/>
 					</row>
 					<row>
-						<label control="maxwait" tooltiptext="How much time should we spend waiting for the API to respond? Minimum is 2 seconds." value="Max wait time (seconds)"/>
+						<label control="maxwait" tooltiptext="How much time should we spend waiting for the API to respond? Minimum is 2 seconds." value="Max wait time (s)"/>
 						<textbox id="maxwait" preference="yourls-shortener-maxwait"/>
 					</row>
 					<row>
