@@ -36,12 +36,14 @@ var YOURLSshortener = function () {
 			
 			//alert (askforkey.value);
 			//alert (maxwait.value);
+			var checked = askforkey.checked;
 			prefManager.setCharPref ("extensions.yourls-shortener.api", api.value);
 			prefManager.setCharPref ("extensions.yourls-shortener.signature", signature.value);
-			prefManager.setBoolPref ("extensions.yourls-shortener.askforkey", askforkey.checked);
+			prefManager.setBoolPref ("extensions.yourls-shortener.askforkey", false);
 			prefManager.setIntPref ("extensions.yourls-shortener.maxwait", maxwait.value);
 			
 			this.run ("http://binfalse.de/");
+			prefManager.setBoolPref ("extensions.yourls-shortener.askforkey", checked);
 			return;
 		},
 		run : function (long) {
@@ -50,6 +52,13 @@ var YOURLSshortener = function () {
 				prompts.alert(null, "YOURLS shortener: failed", "no URL specified!?");
 				return;
 			}
+			
+			if (long != "http://binfalse.de/")
+				if (!(Services.io.getProtocolFlags(makeURI(long).scheme) & Ci.nsIProtocolHandler.URI_LOADABLE_BY_ANYONE))
+				{
+					prompts.alert(null, "URL invalid", "This URL is not valid");
+					return;
+				}
 			
 			var api = prefManager.getCharPref ("extensions.yourls-shortener.api");
 			if (api.substr (-1) != '/')
@@ -113,7 +122,7 @@ var YOURLSshortener = function () {
 						}
 						else
 						{
-							prompts.alert(null, "YOURLS shortener: failed", "API returned crap! Please check your signature and the API-URL.");
+							prompts.alert(null, "YOURLS shortener: failed", "Do not understand the response from API!\nPlease check your signature and the API-URL.");
 							return;
 						}
 					}
