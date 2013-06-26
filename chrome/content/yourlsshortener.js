@@ -46,10 +46,23 @@ var YOURLSshortener = function () {
 			prefManager.setBoolPref ("extensions.yourls-shortener.askforkey", checked);
 			return;
 		},
+		linkDest : function () {
+			try {
+				return gContextMenu.linkURL // new FF, other?
+			}
+			catch(e) {
+				try {
+					return gContextMenu.linkURL() // old FF, SM, other?
+				}
+				catch(e) {
+					return String(gContextMenu.link) // either FF, other?
+				}
+			}
+		},
 		run : function (long) {
 			
 			if (typeof gContextMenu != 'undefined' && gContextMenu.onLink)
-				long = document.popupNode;
+				long = this.linkDest ();
 			
 			if (!long)
 			{
