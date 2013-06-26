@@ -47,6 +47,10 @@ var YOURLSshortener = function () {
 			return;
 		},
 		run : function (long) {
+			
+			if (typeof gContextMenu != 'undefined' && gContextMenu.onLink)
+				long = document.popupNode;
+			
 			if (!long)
 			{
 				prompts.alert(null, "YOURLS shortener: failed", "no URL specified!?");
