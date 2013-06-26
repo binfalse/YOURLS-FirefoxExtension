@@ -59,6 +59,32 @@ var YOURLSshortener = function () {
 				}
 			}
 		},
+		changeButtons : function (icon) {
+			var btn = document.getElementById("yourls-shortener-toolbar-button");
+			if (btn)
+				btn.style.listStyleImage = 'url("chrome://yourls-shortener/skin/' + icon + '")';
+			var btn = document.getElementById("yourls-shortener-status-bar-icon");
+			if (btn)
+				btn.src = 'chrome://yourls-shortener/skin/' + icon;
+		},
+		failed: function () {
+			if (!prefManager.getBoolPref ("extensions.yourls-shortener.changeicons"))
+				return;
+			this.changeButtons ("favicon-failed.gif");
+			var obj = this;
+			setTimeout (function () {
+				obj.changeButtons ("favicon.gif")
+			},3000);
+		},
+		success : function () {
+			if (!prefManager.getBoolPref ("extensions.yourls-shortener.changeicons"))
+				return;
+			this.changeButtons ("favicon-success.gif");
+			var obj = this;
+			setTimeout (function () {
+				obj.changeButtons ("favicon.gif")
+			},3000);
+		},
 		run : function (long) {
 			
 			if (typeof gContextMenu != 'undefined' && gContextMenu.onLink)
@@ -82,6 +108,7 @@ var YOURLSshortener = function () {
 				api += '/';
 			api += "yourls-api.php";
 			
+			var me = this;
 			if (api && api != "http://yoursite/")
 			{
 				try
@@ -120,6 +147,7 @@ var YOURLSshortener = function () {
 					var requestTimer = setTimeout (function () {
 						request.abort ();
 						prompts.alert(null, "YOURLS shortener: failed", "Did not get an answer from server!\nTry again later or increase maximum waiting time.");
+						me.failed ();
 						return;
 					}, maxwait);
 					request.onreadystatechange = function () {
@@ -128,18 +156,25 @@ var YOURLSshortener = function () {
 						clearTimeout (requestTimer);
 						if ((request.status == 200 || request.status == 201) && request.responseText.match(/^\s*\S+\s*$/))
 						{
-							prompts.alert (null, "YOURLS shortener: short URL", long + "\n\nis shortened by:\n\n" + request.responseText);
-							clipboard.copyString (request.responseText);
+							if (prefManager.getBoolPref ("extensions.yourls-shortener.showprompt"))
+								prompts.alert (null, "YOURLS shortener: short URL", long + "\n\nis shortened by:\n\n" + request.responseText);
+							
+							if (prefManager.getBoolPref ("extensions.yourls-shortener.copyclipboard"))
+								clipboard.copyString (request.responseText);
+							
+							me.success ();
 							return;
 						}
 						else if ((request.status == 200 || request.status == 201) && request.responseText.match(/^\s*$/))
 						{
 							prompts.alert(null, "YOURLS shortener: failed", "Shortening failed.. Maybe chosen key already in use!?\nTry again!");
+							me.failed ();
 							return;
 						}
 						else
 						{
 							prompts.alert(null, "YOURLS shortener: failed", "Do not understand the response from API!\nPlease check your signature and the API-URL.");
+							me.failed ();
 							return;
 						}
 					}
@@ -149,11 +184,15 @@ var YOURLSshortener = function () {
 				catch (e) 
 				{
 					prompts.alert(null, "YOURLS shortener: failed", "Failed to start XMLHttpRequest:\n" + e.message);
+					me.failed ();
 				}
 				
 			}
 			else 
+			{
 				prompts.alert(null, "YOURLS shortener: failed", "No API-URL specified... Check your settings!");
+				me.failed ();
+			}
 		}
 	};
 } ();

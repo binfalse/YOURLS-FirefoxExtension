@@ -8,6 +8,9 @@
 			<preference id="yourls-shortener-signature" name="extensions.yourls-shortener.signature" type="string"/>
 			<preference id="yourls-shortener-usesignature" name="extensions.yourls-shortener.usesignature" type="bool"/>
 			<preference id="yourls-shortener-askforkey" name="extensions.yourls-shortener.askforkey" type="bool"/>
+			<preference id="yourls-shortener-showprompt" name="extensions.yourls-shortener.showprompt" type="bool"/>
+			<preference id="yourls-shortener-copyclipboard" name="extensions.yourls-shortener.copyclipboard" type="bool"/>
+			<preference id="yourls-shortener-changeicons" name="extensions.yourls-shortener.changeicons" type="bool"/>
 			<preference id="yourls-shortener-maxwait" name="extensions.yourls-shortener.maxwait" type="int"/>
 		</preferences>
 		
@@ -30,6 +33,18 @@
 					<row>
 						<label control="askforkey" tooltiptext="Do you want to provide keywords?" value="Ask for a keyword?"/>
 						<checkbox id="askforkey" preference="yourls-shortener-askforkey"/>
+					</row>
+					<row>
+						<label control="showprompt" tooltiptext="Should the extension show a prompt with the shortened link?" value="Show prompt after shortening?"/>
+						<checkbox id="showprompt" preference="yourls-shortener-showprompt"/>
+					</row>
+					<row>
+						<label control="copyclipboard" tooltiptext="Should the extension copy the shortened url to your clipboard?" value="Copy result to clipboard?"/>
+						<checkbox id="copyclipboard" preference="yourls-shortener-copyclipboard"/>
+					</row>
+					<row>
+						<label control="changeicons" tooltiptext="Should the extension update the icons in statusbar/toolbar depending on success of shortening?" value="Update Icons?"/>
+						<checkbox id="changeicons" preference="yourls-shortener-changeicons"/>
 					</row>
 					<row>
 						<label control="maxwait" tooltiptext="How much time should we spend waiting for the API to respond? Minimum is 2 seconds." value="Max wait time (s)"/>
