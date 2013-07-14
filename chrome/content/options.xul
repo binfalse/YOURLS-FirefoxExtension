@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<prefwindow title="YOURLS shortener" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<prefwindow title="YOURLS shortener" id="YOURLSshortenerprefwindow" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script src="yourlsshortener.js" />
 	<prefpane label="YOURLS shortener preferences">
 		<preferences>
