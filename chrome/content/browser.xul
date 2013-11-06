@@ -3,9 +3,9 @@
 <!DOCTYPE overlay SYSTEM "chrome://yourls-shortener/locale/translations.dtd">
 <overlay id="sample" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script src="yourlsshortener.js" />
-	<popup id="contentAreaContextMenu">
+	<menupopup id="contentAreaContextMenu">
 		<menuitem id="yourls-shortener-context" insertafter="context-bookmarkpage" label="&shorten;" tooltiptext="&shortenlong;" oncommand="YOURLSshortener.run(content.location.href);" />
-	</popup>
+	</menupopup>
 	<statusbar id="status-bar">
 		<statusbarpanel id="yourls-shortener-status-bar-icon" class="statusbarpanel-iconic" src="chrome://yourls-shortener/skin/favicon.gif" tooltiptext="&shortenlong;" onclick="event.button != 0 || YOURLSshortener.run(content.location.href);" />
 	</statusbar>

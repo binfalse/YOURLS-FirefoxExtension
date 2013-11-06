@@ -87,7 +87,7 @@ var YOURLSshortener = function () {
 		},
 		run : function (long) {
 			
-			if (typeof gContextMenu != 'undefined' && gContextMenu.onLink)
+			if (gContextMenu != null && typeof gContextMenu != 'undefined' && gContextMenu.onLink)
 				long = this.linkDest ();
 			
 			if (!long)
