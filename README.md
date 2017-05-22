@@ -10,14 +10,23 @@ This page is just a stub and just contains a few screenshotw. You will find [mor
 
 ## Usage
 
+### Toolbar-button
+
 ![Toolbar-button](https://binfalse.de/wp-content/uploads/2011/06/yourls-extension-toolbar.png)
 
+### Context-menu
 
 ![Context-menu](https://binfalse.de/wp-content/uploads/2011/06/yourls-extension-context.png)
 
+### Context-menu when selected
+
 ![Context-menu when selected](https://binfalse.de/wp-content/uploads/2011/06/yourls-extension-context-selection.png)
 
+### Statusbar-button
+
 ![Statusbar-button](https://binfalse.de/wp-content/uploads/2011/06/yourls-extension-statusbar.png)
+
+### Provide a keyword
 
 ![Provide a keyword](https://binfalse.de/wp-content/uploads/2011/06/yourls-extension-keyword.png)
 
