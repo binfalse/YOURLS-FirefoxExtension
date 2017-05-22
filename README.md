@@ -32,7 +32,7 @@ This page is just a stub and just contains a few screenshotw. You will find [mor
 
 ## License
 
-    Copyright 2013  Martin Scharm
+    Copyright 2011-2017  Martin Scharm
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
