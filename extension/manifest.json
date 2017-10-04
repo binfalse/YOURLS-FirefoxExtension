@@ -1,0 +1,27 @@
+{
+    "manifest_version": 2,
+    "name": "YOURLS WebExtension",
+    "version": "1.6.1",
+    "description": "Shorten URLs with your own YOURLS instance",
+    "homepage_url": "http://binfalse.de/",
+    "applications": {
+	"gecko": {
+	    "id": "firefox-webextension@yourls.org",
+	    "strict_min_version": "42.0"
+	}
+    },
+    "icons": {
+	"16": "yourls-48.png"
+    },
+    "permissions": [ "activeTab", "storage", "clipboardWrite" ],
+    "options_ui": {
+	"browser_style": true,
+	"page": "options.html"
+    },
+    "browser_action": {
+	"browser_style": true,
+	"default_icon": "yourls-48.png",
+	"default_title": "YOURLS",
+	"default_popup": "popup.html"
+    }
+}
