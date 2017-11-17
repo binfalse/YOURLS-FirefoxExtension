@@ -27,7 +27,7 @@
 		
 		updateResult('Contacting server...');
 		YOURLS(settings, options).then(function(result) {
-			updateResult(result, true);
+			updateResult(result, settings.copy);
 		}, function(error) {
 			updateResult(error ? error.message : 'Unknown error');
 		});

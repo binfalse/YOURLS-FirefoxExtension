@@ -5,6 +5,7 @@
 					document.querySelector('#signature').value = result.signature || '';
 					document.querySelector('#maxwait').value = result.maxwait || '4';
 					document.querySelector('#keyword').checked = result.keyword || false;
+					document.querySelector('#copy').checked = result.copy || false;
 			}, function _err () {
 				document.querySelector('#message').textContent = 'Could not load settings.';}
 			);
@@ -22,6 +23,7 @@
 								settings[sKey] = document.querySelector('#'+sKey).value;
 						});
 						settings['keyword'] = document.querySelector('#keyword').checked;
+						settings['copy'] = document.querySelector('#copy').checked;
 						
 						YOURLS(settings,
 									{
