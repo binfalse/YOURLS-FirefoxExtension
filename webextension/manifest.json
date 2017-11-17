@@ -13,7 +13,13 @@
 		"icons": {
 			"48": "yourls-48.png"
 		},
-		"permissions": [ "activeTab", "storage", "clipboardWrite" ],
+		"permissions": [
+			"activeTab",
+			"storage",
+			"clipboardWrite",
+			"http://*/*",
+			"https://*/*"
+		],
 		"options_ui": {
 			"browser_style": true,
 			"page": "options.html"
