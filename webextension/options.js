@@ -3,8 +3,11 @@
 			browser.storage.local.get().then(function _gotOptions(result) {
 					document.querySelector('#api').value = result.api || '';
 					document.querySelector('#signature').value = result.signature || '';
-					document.querySelector('#maxwait').value = result.maxwait || '';
-			}, function _err () {document.querySelector('#message').textContent = 'Could not load settings.';});
+					document.querySelector('#maxwait').value = result.maxwait || '4';
+					document.querySelector('#keyword').checked = result.keyword || false;
+			}, function _err () {
+				document.querySelector('#message').textContent = 'Could not load settings.';}
+			);
 		};
 		var buttonClick = function(e) {
 			if (e && e.target) {
@@ -18,6 +21,7 @@
 						['api', 'signature', 'maxwait'].forEach(function(sKey) {
 								settings[sKey] = document.querySelector('#'+sKey).value;
 						});
+						settings['keyword'] = document.querySelector('#keyword').checked;
 						
 						YOURLS(settings,
 									{

@@ -17,7 +17,7 @@ function YOURLS(settings, options, expected) {
 	    function() {
 		xhr.abort();
 		reject(new Error('Timed out'));
-	    }, (parseInt(settings.maxwait) || 30) * 1000
+	    }, (parseInt(settings.maxwait) || 5) * 1000
 	);
 	
 	xhr.onreadystatechange = function() {

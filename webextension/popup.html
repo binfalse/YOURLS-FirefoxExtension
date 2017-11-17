@@ -8,12 +8,27 @@
 		<table class="display_table">
 			<tr>
 				<td>
-					<div class="yourls_source" id="source_url">Source URL</div>
+					Source URL:
+				</td>
+				<td id="source_url">
+				</td>
+			</tr>
+			<tr id="keyword_row">
+				<td>
+					Keyword:
+				</td>
+				<td>
+					<input type="text" id="keyword" />
+					<input type="button" id="keyword_submit" value="shorten"/>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<input type="text" class="yourls_result" id="result_url" value="Result" />
+					Short URL:
+				</td>
+				<td>
+					<input type="text" id="result_url" value="Result" />
+					<input type="button" id="result_copy" value="copy"/>
 				</td>
 			</tr>
 		</table>
