@@ -1,0 +1,13 @@
+#___yourls_overlay
+{
+	border-radius: 15px;
+	left : 100px;
+	top : 100px;
+	position : fixed;
+	z-index : 999999;
+	background : white;
+	padding : 10px;
+	border : 2px solid #2a85b3;
+	box-shadow: 4px 4px 7px 3px #ccc;
+	font-size: 12px;
+}

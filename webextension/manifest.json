@@ -17,8 +17,21 @@
 			"activeTab",
 			"storage",
 			"clipboardWrite",
+			"contextMenus",
 			"http://*/*",
 			"https://*/*"
+		],
+		"background": {
+			"scripts": ["background.js"]
+		},
+		"content_scripts": [
+			{
+			  "matches": [
+				"http://*/*",
+				"https://*/*"
+			  ],
+			  "css": ["overlay.css"]
+			}
 		],
 		"options_ui": {
 			"browser_style": true,

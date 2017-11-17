@@ -87,3 +87,6 @@
 	
     browser.storage.local.get().then(_gotSettings, _optionsError);
 })();
+
+
+
