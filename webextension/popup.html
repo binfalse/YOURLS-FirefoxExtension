@@ -5,12 +5,13 @@
 		<link rel="stylesheet" href="popup.css" />
 	</head>
 	<body>
+		<h3>Shorten URL with YOURLS</h3>
 		<table class="display_table">
 			<tr>
 				<td>
 					Source URL:
 				</td>
-				<td id="source_url">
+				<td><strong id="source_url"></strong>
 				</td>
 			</tr>
 			<tr id="keyword_row">
@@ -18,7 +19,7 @@
 					Keyword:
 				</td>
 				<td>
-					<input type="text" id="keyword" />
+					<input type="text" id="keyword" placeholder="Leave empty to generate" />
 					<input type="button" id="keyword_submit" value="shorten"/>
 				</td>
 			</tr>

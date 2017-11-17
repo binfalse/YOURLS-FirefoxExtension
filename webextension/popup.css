@@ -1,5 +1,10 @@
+body {
+	padding: 20px;
+}
 .display_table {
     width: 100%;
     border: 0px;
 }
-
+#keyword, #result_url {
+	min-width: 200px;
+}
