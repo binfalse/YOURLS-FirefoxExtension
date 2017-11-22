@@ -7,7 +7,8 @@
 					document.querySelector('#keyword').checked = result.keyword || false;
 					document.querySelector('#copy').checked = result.copy || false;
 			}, function _err () {
-				document.querySelector('#message').textContent = 'Could not load settings.';}
+				document.querySelector('#message').textContent = 'Could not load settings.';
+			}
 			);
 		};
 		var buttonClick = function(e) {
@@ -33,9 +34,9 @@
 									'^.*<version>\\d+\\.\\d+.*<\\/version>.*$'
 							).then(function(result) {
 									browser.storage.local.set(settings);
-									document.querySelector('#message').textContent = 'Success.  Configuration Saved.';
+									document.querySelector('#message').innerHTML = '<strong>Success.  Configuration Saved.</strong>';
 								}, function(error) {
-									document.querySelector('#message').textContent = 'Error: ' + error.message;
+									document.querySelector('#message').innerHTML = error.message;
 									});
 					} else {
 						document.querySelector('#message').textContent = 'Fields missing or invalid.';
