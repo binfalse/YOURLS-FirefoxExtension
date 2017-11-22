@@ -1,17 +1,26 @@
 (function _yourlsExtension() {
-    var updateSource = function(msg) {
+	
+	var updateSource = function(msg) {
 		var target = document.getElementById('source_url');
 		while (target.firstChild)
 			target.removeChild(target.firstChild);
 		target.appendChild(document.createTextNode(msg));
-    };
-    var updateResult = function(msg, docopy) {
+	};
+	
+	var updateResult = function(msg, docopy) {
 		document.getElementById('result_url').value = msg;
 		if (docopy) {
 			document.getElementById('result_url').select();
 			document.execCommand('copy');
 		}
-    };
+	};
+	
+	var updateError = function(msg) {
+		var target = document.getElementById('error');
+		while (target.firstChild)
+			target.removeChild(target.firstChild);
+		target.innerHTML = msg;
+	};
 	
 	
 	var shorten = function (settings, long_url, keyword) {
@@ -26,14 +35,19 @@
 			options.keyword = keyword;
 		
 		updateResult('Contacting server...');
-		YOURLS(settings, options).then(function(result) {
-			updateResult(result, settings.copy);
-		}, function(error) {
-			updateResult(error ? error.message : 'Unknown error');
-		});
+		
+		browser.runtime.sendMessage({method: "shortenLink", url: long_url, keyword: keyword}, function (response)
+		{
+			if (response.url) {
+				updateResult (response.url, settings.copy);
+			}
+			if (response.err) {
+				updateError (response.err);
+			}
+		}, function (error) {console.error (error)});
 	}
 	
-    var _gotSettings = function(settings) {
+	var _gotSettings = function(settings) {
 		if (settings.api && settings.signature) {
 			var _haveTab = function(tabs) {
 				updateSource(tabs[0].url);
@@ -62,30 +76,28 @@
 			updateSource('Extension not configured');
 			updateResult('Go to about:addons');
 		}
-    };
-    var _optionsError = function(err) {
+	};
+	var _optionsError = function(err) {
 		updateSource('Options not set');
 		updateResult(err.message);
-    }
+	}
 	
-    document.getElementById('result_url').addEventListener(
+	document.getElementById('result_url').addEventListener(
 		'select',
 		function(se) {
 			document.execCommand('Copy');
 		}
-    );
+	);
 	
-    document.getElementById('result_copy').addEventListener(
+	document.getElementById('result_copy').addEventListener(
 		'click',
 		function(se) {
 			document.getElementById('result_url').select();
 			document.execCommand('copy');
 		}
-    );
+	);
 	
-	
-	
-    browser.storage.local.get().then(_gotSettings, _optionsError);
+	browser.storage.local.get().then(_gotSettings, _optionsError);
 })();
 
 

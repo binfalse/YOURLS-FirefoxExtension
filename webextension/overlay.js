@@ -87,6 +87,13 @@ function updateShort (str)
 	elem.value=str;
 	elem.title=str;
 }
+function updateError (str)
+{
+	var elem = document.getElementById ("___yourls_err");
+	if (!elem)
+		return;
+	elem.innerHTML=str;
+}
 
 
 function shorten (url)
@@ -98,11 +105,18 @@ function shorten (url)
 	if (keywordTF)
 		keyword = keywordTF.value;
 	
+	updateShort ("");
+	updateError ("");
+	
 	browser.runtime.sendMessage({method: "shortenLink", url: url, keyword: keyword}, function (response)
 	{
-		console.error ("popup reveives message: shortenLink");
-		console.error (response);
-		updateShort (response.url);
+		if (response.url) {
+			updateShort (response.url);
+		}
+		if (response.err) {
+			updateError (response.err);
+		}
+		
 		// select the short url -> ^c
 		var range = document.createRange();
 		range.selectNode(document.getElementById ("___yourls_done"));
