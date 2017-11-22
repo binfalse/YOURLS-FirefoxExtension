@@ -28,7 +28,7 @@ function YOURLS(settings, options, expected) {
 							if (uMatch) {
 								resolve (uMatch[1]);
 							} else {
-								reject (new Error ('Invalid: ' + xhr.responseText));
+								reject (new Error ('<strong>Invalid response from Server: ' + xhr.responseText + "</strong>"));
 							}
 						} else {
 							var msg = "<strong>Error: Server returned status " + xhr.status + " (" + xhr.statusText + ")</strong>";
@@ -36,10 +36,13 @@ function YOURLS(settings, options, expected) {
 							switch (xhr.status)
 							{
 								case 403:
-									msg += "<br>Seems like you are not allowed to access the API. Did you provide a correct signature? Please verify at <a href='" + apiURLwSlash + "admin/tools.php'>" + apiURLwSlash + "admin/tools.php</a> and double check the signature token. ";
+									msg += "<br>Seems like you are not allowed to access the API. Did you provide a correct signature? Please verify at <a href='" + apiURLwSlash + "admin/tools.php'>" + apiURLwSlash + "admin/tools.php</a> and double check the signature token.";
 									break;
 								case 404:
-									msg += "<br>Seems like we cannot find an YOURLS API at " + apiURL + "? Did you provide the correct API URL? Do not add the 'yourls-api.php' as we will do that! ";
+									msg += "<br>Seems like we cannot find an YOURLS API at <a href='" + apiURL + "'>" + apiURL + "</a>? Did you provide the correct API URL? You should be able to access the admin interface at <a href='" + apiURLwSlash + "admin'>" + apiURLwSlash + "admin</a>!? Do not append <code>'yourls-api.php'</code>, as we will do that!";
+									break;
+								case 0:
+									msg += "<br>Experienced a general connection issue... Maybe your SSL certificate is not valid? Your server is down? Please make sure that you can access the admin interface at <a href='" + apiURLwSlash + "admin'>" + apiURLwSlash + "admin</a>. Open a new ticket at <a href='https://github.com/binfalse/YOURLS-FirefoxExtension/issues'>the GitHub project</a> if you need further help.";
 									break;
 							}
 							
