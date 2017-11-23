@@ -121,9 +121,12 @@ function shorten (url)
 	{
 		if (response.url) {
 			updateShort (response.url);
+			updateShortPlaceholder ("");
+			updateError ("");
 		}
 		if (response.err) {
 			updateError (response.err);
+			updateShortPlaceholder ("shortening failed...");
 		}
 		
 		// select the short url -> ^c

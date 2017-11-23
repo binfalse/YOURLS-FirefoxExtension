@@ -8,9 +8,14 @@
     width: 100%;
     text-align: center;
 }
-#___yourls_overlay div {
+#___yourls_overlay > div {
     margin: auto;
     display: table;
+		padding: 10px;
+}#___yourls_err {
+	max-width: 500px;
+	color: red;
+	font-size: .8em;
 }
 #___yourls_overlay div div {
     text-align: left;
