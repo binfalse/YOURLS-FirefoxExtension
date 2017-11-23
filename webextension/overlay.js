@@ -125,38 +125,37 @@ function shorten (url)
 		selection.addRange(range);
 	}, function (error) {console.error (error)});
 }
-function injectPage (url)
+function injectPage (url, underlay, parent)
 {
-	var parent = document.getElementById ("___yourls_div");
-	if (parent)
+	browser.runtime.sendMessage({method: "getHTML"}, function (response)
 	{
-		browser.runtime.sendMessage({method: "getHTML"}, function (response)
+		parent.innerHTML = response.data;
+		underlay.style.height = "100%";
+		
+		// get url if we're in popup
+		if (!url)
 		{
-			parent.innerHTML = response.data;
-			
-			// get url if we're in popup
-			if (!url)
+			browser.runtime.sendMessage ({method: "getSiteURL"}, function (response)
 			{
-				browser.runtime.sendMessage ({method: "getSiteURL"}, function (response)
-				{
-					url = response.url;
-					setup (url)
-				});
-			}
-			else
-				setup (url);
-		});
-	} else {
-		console.error ("couldn't find ___yourls_div");
-	}
-	
+				url = response.url;
+				setup (url)
+			});
+		}
+		else
+			setup (url);
+	});
 }
+
+
 
 function createOverlay (url)
 {
 	if (document.getElementById ("___yourls_overlay") || document.getElementById("___yourls_body"))
 		return;
 	
+	var underlay = document.createElement ("div");
+	underlay.id = "___yourls_underlay";
+	underlay.style.height = "0%";
 	var overlay = document.createElement ("div");
 	overlay.id = "___yourls_overlay";
 	var h3 = document.createElement ("h3");
@@ -168,13 +167,19 @@ function createOverlay (url)
 	var input = document.createElement ("input");
 	input.type = 'button';
 	input.value = 'close';
-	input.addEventListener('click', function (e)
-	{
-		overlay.parentNode.removeChild(overlay);
-	}); 
+	
+	var disappear = function () {
+		underlay.style.height = "0%";
+		setTimeout(function () {underlay.parentNode.removeChild(underlay);}, 800)
+	}
+	
+	input.addEventListener('click', disappear); 
+	underlay.addEventListener('click', disappear); 
+	
 	overlay.appendChild (input);
-	document.body.appendChild (overlay);
-	injectPage (url);
+	underlay.appendChild (overlay);
+	document.body.appendChild (underlay);
+	injectPage (url, underlay, div);
 }
 
 
