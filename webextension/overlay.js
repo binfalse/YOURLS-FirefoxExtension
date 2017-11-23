@@ -1,6 +1,7 @@
 function setup (myURL)
 {
 	//logg ("updated url: " + myURL);
+	updateShort ("");
 	
 	// is this url ok?
 	if (!myURL || !validURL (myURL))
@@ -9,13 +10,13 @@ function setup (myURL)
 			updateLong (myURL);
 		else
 			updateLong ("no url");
-		updateShort ("won't shorten this url.");
+		updateShortPlaceholder ("won't shorten this url.");
 		return;
 	}
 	
 	// setup urls in form
 	updateLong (myURL);
-	updateShort ("loading...");
+	updateShortPlaceholder ("loading...");
 	
 	// addSelection as default keyword if keyword-textfield
 	var text = document.getElementById("___yourls_key"); 
@@ -26,10 +27,10 @@ function setup (myURL)
 	var keyBtn = document.getElementById("___yourls_shortenbtn");
 	if (keyBtn)
 	{
-		updateShort ("waiting for keyword...");
+		updateShortPlaceholder ("waiting for keyword...");
 		keyBtn.addEventListener("click", function ()
 		{
-			updateShort ("loading...");
+			updateShortPlaceholder ("loading...");
 			shorten (myURL);
 		});
 	}
@@ -79,6 +80,13 @@ function updateLong (str)
 	elem.innerHTML=shortLong(str);
 	elem.title=str;
 }
+function updateShortPlaceholder (str)
+{
+	var elem = document.getElementById ("___yourls_done");
+	if (!elem)
+		return;
+	elem.placeholder=str;
+}
 function updateShort (str)
 {
 	var elem = document.getElementById ("___yourls_done");
@@ -98,7 +106,8 @@ function updateError (str)
 
 function shorten (url)
 {
-	updateShort ("shortening...");
+	updateShort ("");
+	updateShortPlaceholder ("shortening...");
 	
 	var keyword;
 	var keywordTF = document.getElementById("___yourls_key");
@@ -168,13 +177,16 @@ function createOverlay (url)
 	input.type = 'button';
 	input.value = 'close';
 	
-	var disappear = function () {
-		underlay.style.height = "0%";
-		setTimeout(function () {underlay.parentNode.removeChild(underlay);}, 800)
+	var disappear = function (e) {
+		e = window.event || e;
+		if(underlay === e.target || input === e.target) {
+			underlay.style.height = "0%";
+			setTimeout(function () {underlay.parentNode.removeChild(underlay);}, 800)
+		}
 	}
 	
-	input.addEventListener('click', disappear); 
-	underlay.addEventListener('click', disappear); 
+	input.addEventListener('click', disappear);
+	underlay.addEventListener('click', disappear);
 	
 	overlay.appendChild (input);
 	underlay.appendChild (overlay);

@@ -44,11 +44,11 @@ browser.runtime.onMessage.addListener (function(request, sender, sendResponse)
 				sendResponse ({data: "<div class='___yourls_todo'>Source URL: <strong id='___yourls_todo'></strong></div>"
 					+ (val ? 
 					"<div id='___yourls_keyword'>Keyword: <input type='text' id='___yourls_key' /> <input type='submit' id='___yourls_shortenbtn' value='shorten' /></div>" : "")
-					+ "<div class='___yourls_done'>Short URL : <input type='text' id='___yourls_done'/></div>"
+					+ "<div class='___yourls_done'>Short URL : <input type='text' id='___yourls_done' readonly/></div>"
 					+ "<div id='___yourls_err'></div>"});
 			}, function (err) {
 				sendResponse ({data: "<div class='___yourls_todo'>Source URL: <strong id='___yourls_todo'></strong></div>"
-					+ "<div class='___yourls_done'>Short URL : <input type='text' id='___yourls_done'/></div>"
+					+ "<div class='___yourls_done'>Short URL : <input type='text' id='___yourls_done' readonly/></div>"
 					+ "<div id='___yourls_err'></div>"});
 			}
 		);
