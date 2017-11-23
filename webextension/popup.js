@@ -7,11 +7,15 @@
 		target.appendChild(document.createTextNode(msg));
 	};
 	
-	var updateResult = function(msg, docopy) {
-		document.getElementById('result_url').value = msg;
-		if (docopy) {
-			document.getElementById('result_url').select();
-			document.execCommand('copy');
+	var updateResult = function(msg, placeholder, docopy) {
+		var element = document.getElementById('result_url');
+		if (element) {
+			element.value = msg;
+			element.placeholder = placeholder;
+			if (docopy) {
+				element.select();
+				document.execCommand('copy');
+			}
 		}
 	};
 	
@@ -34,12 +38,12 @@
 		if (keyword && keyword.length > 1)
 			options.keyword = keyword;
 		
-		updateResult('Contacting server...');
+		updateResult("", 'Contacting server...');
 		
 		browser.runtime.sendMessage({method: "shortenLink", url: long_url, keyword: keyword}, function (response)
 		{
 			if (response.url) {
-				updateResult (response.url, settings.copy);
+				updateResult (response.url, "", settings.copy);
 			}
 			if (response.err) {
 				updateError (response.err);
@@ -52,8 +56,13 @@
 			var _haveTab = function(tabs) {
 				updateSource(tabs[0].url);
 				
+				browser.runtime.sendMessage({method: "getSelection"}, function (response)
+				{
+					document.getElementById('keyword').value = response.selection;
+				}, function (error) {console.error (error)});
+				
 				if (settings.keyword) {
-					updateResult('Waiting for keyword...');
+					updateResult("", "Waiting for keyword...");
 					document.getElementById('keyword_submit').addEventListener(
 						'click',
 						function(se) {
@@ -63,18 +72,18 @@
 				} else {
 					var keywordrow = document.getElementById('keyword_row');
 					keywordrow.parentNode.removeChild(keywordrow);
-					updateResult('Working...');
+					updateResult("", "Working...");
 					shorten (settings, tabs[0].url);
 				}
 			};
 			var _tabQueryError = function(error) {
 				updateSource('Cannot get current tab URL!');
-				updateResult('Error:' + error.message);
+				updateResult('Error:' + error.message, "");
 			};
 			browser.tabs.query({active: true, currentWindow: true}).then(_haveTab, _tabQueryError);
 		} else {
 			updateSource('Extension not configured');
-			updateResult('Go to about:addons');
+			updateResult('Go to about:addons', "");
 		}
 	};
 	var _optionsError = function(err) {
@@ -96,7 +105,6 @@
 			document.execCommand('copy');
 		}
 	);
-	
 	browser.storage.local.get().then(_gotSettings, _optionsError);
 })();
 

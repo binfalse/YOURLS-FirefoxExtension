@@ -7,28 +7,20 @@ browser.contextMenus.create({
 
 
 
-
-function shortenClick(info, tab)
-{
-	
-	let executing = browser.tabs.executeScript({file: "overlay.js"});
-	executing.then (function (result) {
-		
-		browser.tabs.query({
-			active: true,
-			currentWindow: true
-		}).then(function (tabs) {
-			browser.tabs.sendMessage(tabs[0].id, {
-				url: info.linkUrl ? info.linkUrl : info.pageUrl
-			});
-		})});
+function getSelectionText() {
+	var text = "";
+	if (window.getSelection) {
+		text = window.getSelection().toString();
+	} else if (document.selection && document.selection.type != "Control") {
+		text = document.selection.createRange().text;
+	}
+	return text;
 }
-
 
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === "yourls") {
-		shortenClick (info, tab)
+		browser.browserAction.openPopup();
 	}
 });
 
@@ -36,25 +28,7 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
 
 browser.runtime.onMessage.addListener (function(request, sender, sendResponse)
 {
-	if (request.method == "getHTML")
-	{
-		var keyword = false;
-		browser.storage.local.get('keyword').then (
-			function (val) {
-				sendResponse ({data: "<div class='___yourls_todo'>Source URL: <strong id='___yourls_todo'></strong></div>"
-					+ (val ? 
-					"<div id='___yourls_keyword'>Keyword: <input type='text' id='___yourls_key' /> <input type='submit' id='___yourls_shortenbtn' value='shorten' /></div>" : "")
-					+ "<div class='___yourls_done'>Short URL : <input type='text' id='___yourls_done' readonly/></div>"
-					+ "<div id='___yourls_err'></div>"});
-			}, function (err) {
-				sendResponse ({data: "<div class='___yourls_todo'>Source URL: <strong id='___yourls_todo'></strong></div>"
-					+ "<div class='___yourls_done'>Short URL : <input type='text' id='___yourls_done' readonly/></div>"
-					+ "<div id='___yourls_err'></div>"});
-			}
-		);
-		return true;
-	}
-	else if (request.method == "shortenLink")
+	if (request.method == "shortenLink")
 	{
 		browser.storage.local.get().then(  function(settings) {
 			
@@ -77,18 +51,14 @@ browser.runtime.onMessage.addListener (function(request, sender, sendResponse)
 		
 		return true;
 	}
-	else if (request.method == "getSiteURL")
-	{
-		browser.tabs.getSelected(null, function(tab)
-		{
-			sendResponse ({url : tab.url});
-		});
-		return true;
-	}
 	else if (request.method == "getSelectionInTab" || request.method == "getSelection")
 	{
-		var sel = window.getSelection ().toString ();
-		sendResponse ({data: window.getSelection ().toString ()});
+		chrome.tabs.executeScript({
+			code: '(' + getSelectionText.toString() + ')()'
+		}, function (results) {
+			if (Array.isArray (results) && results.length == 1)
+				sendResponse ({selection: results[0]});
+		})
 		return true;
 	}
 	else if (request.method == "version")
