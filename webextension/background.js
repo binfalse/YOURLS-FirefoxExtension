@@ -172,6 +172,11 @@ function YOURLS(settings, options, expected) {
 							err.supp.links.push ("extension's settings");
 							break;
 							
+						case 400:
+							err.supp.text = "Is that a proper URL? YOURLS won't shorten URLs such as 'about:addons' etc. If you think this is an error please report the issue at https://github.com/binfalse/YOURLS-FirefoxExtension/issues and explain what you did.";
+							err.supp.links.push ("https://github.com/binfalse/YOURLS-FirefoxExtension/issues");
+							break;
+							
 						case 0:
 							err.supp.text = "Experienced a general connection issue... Maybe your SSL certificate is not valid? Your server is down? You provided an illegal Server URL? Please verify your extension's settings and make sure that you can access the admin interface at " + apiURLwSlash + "admin. If you need further help open a new ticket at https://github.com/binfalse/YOURLS-FirefoxExtension/issues and explain what you did.";
 							err.supp.links.push (apiURLwSlash + "admin");
