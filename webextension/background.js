@@ -35,10 +35,11 @@ browser.runtime.onMessage.addListener (function(request, sender, sendResponse)
 			var options = {
 				action: 'shorturl',
 				format: 'simple',
-					url: request.url,
-					signature: settings.signature,
-					keyword: request.keyword
+				url: request.url,
+				signature: settings.signature
 			};
+			if (request.keyword)
+				options.keyword = request.keyword;
 			
 			YOURLS (settings, options).then(function(result) {
 				sendResponse (result);
