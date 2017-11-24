@@ -1,5 +1,7 @@
 (function _yourlsExtension() {
 	
+	var communicationErrorMsg = "This seems like a serious bug!? Could you please file a bug report at https://github.com/binfalse/YOURLS-FirefoxExtension/issues/new and explain what you did? This would help improving the add-on.";
+	
 	var updateSource = function(msg) {
 		var target = document.getElementById('source_url');
 		while (target.firstChild)
@@ -19,11 +21,11 @@
 		}
 	};
 	
-	var updateError = function(msg) {
-		var target = document.getElementById('error');
-		while (target.firstChild)
-			target.removeChild(target.firstChild);
-		target.innerHTML = msg;
+	var updateError = function(error, errsupp) {
+		var title = document.getElementById('message_title');
+		var supp = document.getElementById('message_supp');
+		title.textContent = error;
+		supp.textContent = errsupp;
 	};
 	
 	
@@ -40,15 +42,15 @@
 		
 		updateResult("", 'Contacting server...');
 		
-		browser.runtime.sendMessage({method: "shortenLink", url: long_url, keyword: keyword}, function (response)
+		browser.runtime.sendMessage({method: "shortenLink", url: long_url, keyword: keyword}).then (function (response)
 		{
 			if (response.url) {
 				updateResult (response.url, "", settings.copy);
 			}
-			if (response.err) {
-				updateError (response.err);
+			if (response.error) {
+				updateError (response.error, response.supp);
 			}
-		}, function (error) {console.error (error)});
+		}, function (error) {updateError ("Communication error within the extension!", communicationErrorMsg);});
 	}
 	
 	var _gotSettings = function(settings) {
@@ -56,10 +58,10 @@
 			var _haveTab = function(tabs) {
 				updateSource(tabs[0].url);
 				
-				browser.runtime.sendMessage({method: "getSelection"}, function (response)
+				browser.runtime.sendMessage({method: "getSelection"}).then (function (response)
 				{
 					document.getElementById('keyword').value = response.selection;
-				}, function (error) {console.error (error)});
+				}, function (error) {updateError ("Communication error within the extension!", communicationErrorMsg);});
 				
 				if (settings.keyword) {
 					updateResult("", "Waiting for keyword...");
@@ -105,6 +107,16 @@
 			document.execCommand('copy');
 		}
 	);
+	
+	
+	
+	document.getElementById('settings').addEventListener(
+		'click',
+		function(se) {
+			browser.runtime.openOptionsPage();
+		}
+	);
+	
 	browser.storage.local.get().then(_gotSettings, _optionsError);
 })();
 

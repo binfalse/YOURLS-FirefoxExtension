@@ -8,3 +8,6 @@ body {
 #keyword, #result_url {
 	min-width: 200px;
 }
+#message {
+	color: red;
+}

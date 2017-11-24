@@ -1,4 +1,7 @@
 (function _yourlsOptions () {
+	
+	var communicationErrorMsg = "This seems like a serious bug!? Could you please file a bug report at https://github.com/binfalse/YOURLS-FirefoxExtension/issues/new and explain what you did? This would help improving the add-on.";
+	
 	var loadOptions = function(e) {
 		browser.storage.local.get().then(function _gotOptions(result) {
 			document.querySelector('#api').value = result.api || '';
@@ -14,10 +17,14 @@
 	var buttonClick = function(e) {
 		if (e && e.target) {
 			e.preventDefault();
+			
+			var msg_title = document.querySelector('#message_title');
+			var msg_supp = document.querySelector('#message_supp');
+			msg_title.textContent = "";
+			msg_supp.textContent = "";
+			
 			if (document.querySelector('#api').value.length &&
-				document.querySelector('#signature').value.length &&
-				document.querySelector('#maxwait').value.length &&
-				document.querySelector('#maxwait').value.match(/[0-9]+/)) {
+				document.querySelector('#signature').value.length) {
 				
 				var settings = {};
 				['api', 'signature', 'maxwait'].forEach(function(sKey) {
@@ -26,13 +33,28 @@
 				settings['keyword'] = document.querySelector('#keyword').checked;
 				settings['copy'] = document.querySelector('#copy').checked;
 				
+				settings['maxwait'] = parseInt(settings['maxwait']);
+				if (!settings['maxwait'] || settings['maxwait'] < 1) {
+					settings['maxwait'] = 5;
+				}
+				document.querySelector('#maxwait').value = settings['maxwait'];
+				
 				browser.runtime.sendMessage({method: "version", settings: settings}, function (response)
 				{
-					document.querySelector('#message').innerHTML = response.msg;
-				}, function (error) {console.error (error)});
+					if (!response.error) {
+						msg_title.textContent = "Success!";
+						msg_supp.textContent = "You're connected to a YOURLS version " + response.url;
+					} else {
+						msg_title.textContent = response.error;
+						if (response.supp) {
+							msg_supp.textContent = response.supp;
+						}
+					}
+				}, updateError ("Communication error within the extension!", communicationErrorMsg););
 			
 			} else {
-				document.querySelector('#message').textContent = 'Fields missing or invalid.';
+				msg_title.textContent = 'Please provide a proper API URL and your signature.';
+				msg_supp.textContent = 'The Server URL is the URL to the YOURLS web interface. The signature can be obtained from the "Tools" page of the YOURLS web interface.';
 			}
 		}
 	};

@@ -41,12 +41,12 @@ browser.runtime.onMessage.addListener (function(request, sender, sendResponse)
 			};
 			
 			YOURLS (settings, options).then(function(result) {
-				sendResponse ({url: result});
+				sendResponse (result);
 			}, function(error) {
-				sendResponse ({err: error ? error.message : 'Unknown error'});
+				sendResponse (error);
 			});
 		}, function (error) {
-			sendResponse ({err: "did not find settings"});
+			sendResponse ({errror: "did not find settings"});
 		});
 		
 		return true;
@@ -58,7 +58,9 @@ browser.runtime.onMessage.addListener (function(request, sender, sendResponse)
 		}, function (results) {
 			if (Array.isArray (results) && results.length == 1)
 				sendResponse ({selection: results[0]});
-		})
+			else
+				sendResponse ({selection: ""});
+		});
 		return true;
 	}
 	else if (request.method == "version")
@@ -69,12 +71,12 @@ browser.runtime.onMessage.addListener (function(request, sender, sendResponse)
 						 action: 'version',
 				 signature: settings.signature,
 					 },
-				 '^.*<version>\\d+\\.\\d+.*<\\/version>.*$'
+				 '^.*<version>(\\d+\\.\\d+.*)<\\/version>.*$'
 		).then(function(result) {
 			browser.storage.local.set(settings);
-			sendResponse ({msg: '<strong>Success.  Configuration Saved.</strong>'});
+			sendResponse (result);
 		}, function(error) {
-			sendResponse ({msg: error.message});
+			sendResponse (error);
 		});
 		return true;
 	}
@@ -112,7 +114,7 @@ function YOURLS(settings, options, expected) {
 		var rqTimer = setTimeout(
 			function() {
 				xhr.abort();
-				reject(new Error('Timed out'));
+				reject({error: 'Request timed out'});
 			}, (parseInt(settings.maxwait) || 5) * 1000
 		);
 		
@@ -122,27 +124,29 @@ function YOURLS(settings, options, expected) {
 				if ((xhr.status == 200) || (xhr.status == 201)) {
 					var uMatch = xhr.responseText.match (new RegExp(expMatchString));
 					if (uMatch) {
-						resolve (uMatch[1]);
+						resolve ({url: uMatch[1], originalRespons: xhr.responseText});
 					} else {
-						reject (new Error ('<strong>Invalid response from Server: ' + stripHtml (xhr.responseText) + "</strong>"));
+						reject ({error: 'Invalid response from Server: ' + stripHtml (xhr.responseText)});
 					}
 				} else {
-					var msg = "<strong>Error: Server returned status " + xhr.status + " (" + stripHtml (xhr.statusText) + ")</strong>";
+					var err = {
+						error: "Error: Server returned status " + xhr.status + " (" + stripHtml (xhr.statusText) + ")"
+					};
 					
 					switch (xhr.status)
 					{
 						case 403:
-							msg += "<br>Seems like you are not allowed to access the API. Did you provide a correct signature? Please verify at <a href='" + apiURLwSlash + "admin/tools.php'>" + apiURLwSlash + "admin/tools.php</a> and double check the signature token in your settings.";
+							err.supp = "Seems like you are not allowed to access the API. Did you provide a correct signature? Please verify at " + apiURLwSlash + "admin/tools.php and double check the signature token in your settings.";
 							break;
 						case 404:
-							msg += "<br>Seems like we cannot find an YOURLS API at <a href='" + apiURL + "'>" + apiURL + "</a>? Did you provide the correct API URL? Please verify your settings. You should be able to access the admin interface at <a href='" + apiURLwSlash + "admin'>" + apiURLwSlash + "admin</a>!? Do not append <code>'yourls-api.php'</code>, as we will do that!";
+							err.supp = "Seems like we cannot find an YOURLS API at " + apiURL + "? Did you provide the correct Server URL? Please verify your settings. You should be able to access the admin interface at " + apiURLwSlash + "admin!? Do not append <code>'yourls-api.php'</code>, as we will do that!";
 							break;
 						case 0:
-							msg += "<br>Experienced a general connection issue... Maybe your SSL certificate is not valid? Your server is down? Please verify your settings and make sure that you can access the admin interface at <a href='" + apiURLwSlash + "admin'>" + apiURLwSlash + "admin</a>. Open a new ticket at <a href='https://github.com/binfalse/YOURLS-FirefoxExtension/issues'>the GitHub project</a> if you need further help.";
+							err.supp = "Experienced a general connection issue... Maybe your SSL certificate is not valid? Your server is down? You provided an illegal Server URL? Please verify your settings and make sure that you can access the admin interface at " + apiURLwSlash + "admin. Open a new ticket at https://github.com/binfalse/YOURLS-FirefoxExtension/issues if you need further help.";
 							break;
 					}
 					
-					reject (new Error (msg));
+					reject (err);
 				}
 			}
 		};
