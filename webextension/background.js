@@ -98,12 +98,29 @@ function YOURLS(settings, options, expected) {
 		return div.textContent || div.innerText || "";
 	}
 	
-	
 	var expMatchString = expected || '^\\s*(\\S+)\\s*$';
+	
+	
 	var apiURLwSlash = settings.api;
+	// strip common postfixes from the server url
+	var endStripper = [
+		'yourls-api.php',
+		'admin/tools.php',
+		'admin/index.php',
+		'admin/plugins.php',
+		'admin/',
+		'admin',
+		'readme.html',
+	];
+	for (var i = 0; i < endStripper.length; i++)
+		if (apiURLwSlash.endsWith (endStripper[i]))
+			apiURLwSlash = apiURLwSlash.substr (0, apiURLwSlash.length - endStripper[i].length);
 	if (apiURLwSlash.substr(-1) != '/')
 		apiURLwSlash += '/';
 	var apiURL = apiURLwSlash + 'yourls-api.php';
+	
+	
+	
 	var qParams = '';
 	for (var k in options) {
 		if (options.hasOwnProperty(k)) {
