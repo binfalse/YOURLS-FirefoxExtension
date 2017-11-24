@@ -1,7 +1,5 @@
 (function _yourlsExtension() {
 	
-	var communicationErrorMsg = "This seems like a serious bug!? Could you please file a bug report at https://github.com/binfalse/YOURLS-FirefoxExtension/issues/new and explain what you did? This would help improving the add-on.";
-	
 	var updateSource = function(msg) {
 		var target = document.getElementById('source_url');
 		while (target.firstChild)
@@ -25,7 +23,9 @@
 		var title = document.getElementById('message_title');
 		var supp = document.getElementById('message_supp');
 		title.textContent = error;
-		supp.textContent = errsupp;
+		supp.textContent = "";
+		if (errsupp)
+			injectSupplemental (supp, errsupp);
 	};
 	
 	

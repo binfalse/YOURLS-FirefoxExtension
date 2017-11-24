@@ -88,6 +88,8 @@ browser.runtime.onMessage.addListener (function(request, sender, sendResponse)
 
 
 
+
+
 function YOURLS(settings, options, expected) {
 	
 	var stripHtml = function (str) {
@@ -130,19 +132,33 @@ function YOURLS(settings, options, expected) {
 					}
 				} else {
 					var err = {
-						error: "Error: Server returned status " + xhr.status + " (" + stripHtml (xhr.statusText) + ")"
+						error: "Error: Server returned status " + xhr.status + " (" + stripHtml (xhr.statusText) + ")",
+						supp: {
+							text: "",
+							links: []
+						}
 					};
 					
 					switch (xhr.status)
 					{
 						case 403:
-							err.supp = "Seems like you are not allowed to access the API. Did you provide a correct signature? Please verify at " + apiURLwSlash + "admin/tools.php and double check the signature token in your settings.";
+							err.supp.text = "Seems like you are not allowed to access the API. Did you provide a correct signature? Please verify at " + apiURLwSlash + "admin/tools.php and double check the signature token in the extension's settings.";
+							err.supp.links.push (apiURLwSlash + "admin/tools.php");
+							err.supp.links.push ("extension's settings");
 							break;
+							
 						case 404:
-							err.supp = "Seems like we cannot find an YOURLS API at " + apiURL + "? Did you provide the correct Server URL? Please verify your settings. You should be able to access the admin interface at " + apiURLwSlash + "admin!? Do not append <code>'yourls-api.php'</code>, as we will do that!";
+							err.supp.text = "Seems like we cannot find an YOURLS API at " + apiURL + "? Did you provide the correct Server URL? Please verify your settings. You should be able to access the admin interface at " + apiURLwSlash + "admin!? Do not append 'yourls-api.php' as we will do that! Double check the Server URL token in the extension's settings.";
+							err.supp.links.push (apiURLwSlash + "admin");
+							err.supp.links.push (apiURL);
+							err.supp.links.push ("extension's settings");
 							break;
+							
 						case 0:
-							err.supp = "Experienced a general connection issue... Maybe your SSL certificate is not valid? Your server is down? You provided an illegal Server URL? Please verify your settings and make sure that you can access the admin interface at " + apiURLwSlash + "admin. Open a new ticket at https://github.com/binfalse/YOURLS-FirefoxExtension/issues if you need further help.";
+							err.supp.text = "Experienced a general connection issue... Maybe your SSL certificate is not valid? Your server is down? You provided an illegal Server URL? Please verify your extension's settings and make sure that you can access the admin interface at " + apiURLwSlash + "admin. If you need further help open a new ticket at https://github.com/binfalse/YOURLS-FirefoxExtension/issues and explain what you did.";
+							err.supp.links.push (apiURLwSlash + "admin");
+							err.supp.links.push ("https://github.com/binfalse/YOURLS-FirefoxExtension/issues");
+							err.supp.links.push ("extension's settings");
 							break;
 					}
 					

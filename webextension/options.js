@@ -1,7 +1,5 @@
 (function _yourlsOptions () {
 	
-	var communicationErrorMsg = "This seems like a serious bug!? Could you please file a bug report at https://github.com/binfalse/YOURLS-FirefoxExtension/issues/new and explain what you did? This would help improving the add-on.";
-	
 	var loadOptions = function(e) {
 		browser.storage.local.get().then(function _gotOptions(result) {
 			document.querySelector('#api').value = result.api || '';
@@ -21,7 +19,8 @@
 			var msg_title = document.querySelector('#message_title');
 			var msg_supp = document.querySelector('#message_supp');
 			msg_title.textContent = "";
-			msg_supp.textContent = "";
+			while (msg_supp.firstChild)
+				msg_supp.removeChild(msg_supp.firstChild);
 			
 			if (document.querySelector('#api').value.length &&
 				document.querySelector('#signature').value.length) {
@@ -47,10 +46,13 @@
 					} else {
 						msg_title.textContent = response.error;
 						if (response.supp) {
-							msg_supp.textContent = response.supp;
+							injectSupplemental (msg_supp, response.supp);
 						}
 					}
-				}, updateError ("Communication error within the extension!", communicationErrorMsg););
+				}, function (error) {
+					msg_title.textContent = "Communication error within the extension!";
+					injectSupplemental (msg_supp, communicationErrorMsg);
+				});
 			
 			} else {
 				msg_title.textContent = 'Please provide a proper API URL and your signature.';
