@@ -58,12 +58,19 @@
 			var _haveTab = function(tabs) {
 				updateSource(tabs[0].url);
 				
-				browser.runtime.sendMessage({method: "getSelection"}).then (function (response)
-				{
-					document.getElementById('keyword').value = response.selection;
-				}, function (error) {updateError ("Communication error within the extension!", communicationErrorMsg);});
+				
+				document.getElementById('admin').addEventListener(
+					'click',
+					function(se) {
+						window.open(settings.api + "admin/");
+					}
+				);
 				
 				if (settings.keyword) {
+					browser.runtime.sendMessage({method: "getSelection"}).then (function (response) {
+						document.getElementById('keyword').value = response.selection;
+					}, function (error) {updateError ("Communication error within the extension!", communicationErrorMsg);});
+					
 					updateResult("", "Waiting for keyword...");
 					document.getElementById('keyword_submit').addEventListener(
 						'click',
@@ -107,6 +114,7 @@
 			document.execCommand('copy');
 		}
 	);
+	
 	
 	
 	

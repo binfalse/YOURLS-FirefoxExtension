@@ -10,7 +10,12 @@ body {
 }
 #message {
 	color: red;
+	margin-top: 10px;
 }
 #headlineicon {
-	height: 1em;
+	height: .8em;
+}
+button {
+	margin-right: 5px;
+	margin-top: 10px;
 }

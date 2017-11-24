@@ -61,6 +61,30 @@ function injectSupplemental (node, supp) {
 	
 }
 
+// returns server url including tailing slash
+function sanitiseApiUrl (url) {
+	
+	// strip common postfixes from the server url
+	var endStripper = [
+	'yourls-api.php',
+	'admin/tools.php',
+	'admin/index.php',
+	'admin/plugins.php',
+	'admin/',
+	'admin',
+	'readme.html',
+	];
+	
+	for (var i = 0; i < endStripper.length; i++)
+		if (url.endsWith (endStripper[i]))
+			url = url.substr (0, url.length - endStripper[i].length);
+	
+	if (url.substr(-1) != '/')
+		url += '/';
+	
+	return url;
+}
+
 
 var communicationErrorMsg = {
 	text: "This seems like a serious bug!? Could you please file a bug report at https://github.com/binfalse/YOURLS-FirefoxExtension/issues/new and explain what you did? This would help improving the add-on.",

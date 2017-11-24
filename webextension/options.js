@@ -38,6 +38,9 @@
 				}
 				document.querySelector('#maxwait').value = settings['maxwait'];
 				
+				settings['api'] = sanitiseApiUrl (settings['api']);
+				document.querySelector('#api').value = settings['api'];
+				
 				browser.runtime.sendMessage({method: "version", settings: settings}, function (response)
 				{
 					if (!response.error) {

@@ -1,7 +1,7 @@
 {
 		"manifest_version": 2,
 		"name": "YOURLS WebExtension",
-		"version": "2.3.3",
+		"version": "2.4.0",
 		"description": "Shorten URLs with your own YOURLS instance",
 		"homepage_url": "https://s.binfalse.de/2f",
 		"applications": {
@@ -11,7 +11,8 @@
 			}
 		},
 		"icons": {
-			"48": "yourls-48.png"
+			"48": "yourls.svg",
+			"96": "yourls.svg"
 		},
 		"permissions": [
 			"activeTab",
