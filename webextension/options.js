@@ -45,7 +45,11 @@
 				{
 					if (!response.error) {
 						msg_title.textContent = "Success!";
-						msg_supp.textContent = "You're connected to a YOURLS version " + response.url;
+						if (settings['api'].indexOf ("https://") != 0) {
+							msg_supp.textContent = "You're connected to a YOURLS version " + response.url + ". WARNING: As you are not using HTTPS, we are submitting all requests in plain text over the network - including your signature! Please consider to secure your YOURLS instance with proper encryption.";
+						} else {
+							msg_supp.textContent = "You're connected to a YOURLS version " + response.url;
+						}
 					} else {
 						msg_title.textContent = response.error;
 						if (response.supp) {
