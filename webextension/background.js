@@ -132,7 +132,13 @@ function YOURLS(settings, options, expected) {
 					if (uMatch) {
 						resolve ({url: uMatch[1], originalRespons: xhr.responseText});
 					} else {
-						reject ({error: 'Invalid response from Server: ' + stripHtml (xhr.responseText)});
+						reject ({
+							error: 'Invalid response from Server: ' + stripHtml (xhr.responseText),
+							supp: {
+								text: "Are you using an outdated YOURLS version?",
+								links: []
+							}
+						});
 					}
 				} else {
 					var err = {
