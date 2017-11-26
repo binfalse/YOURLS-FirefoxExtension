@@ -41,6 +41,8 @@
 				settings['api'] = sanitiseApiUrl (settings['api']);
 				document.querySelector('#api').value = settings['api'];
 				
+				document.querySelector('#signature').value = settings['signature'];
+				
 				browser.runtime.sendMessage({method: "version", settings: settings}, function (response)
 				{
 					if (!response.error) {
