@@ -27,7 +27,7 @@
 				
 				var settings = {};
 				['api', 'signature', 'maxwait'].forEach(function(sKey) {
-					settings[sKey] = document.querySelector('#'+sKey).value;
+					settings[sKey] = document.querySelector('#'+sKey).value.trim ();
 				});
 				settings['keyword'] = document.querySelector('#keyword').checked;
 				settings['copy'] = document.querySelector('#copy').checked;
