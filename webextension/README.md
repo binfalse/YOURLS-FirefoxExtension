@@ -1,34 +1,40 @@
 # YOURLS Firefox extension
 
 This is an extension for Mozilla's Firefox to interact with the open source [URL shortener Yourls](http://yourls.org/).
+This page is just a stub and just contains a few screenshots. You will find [more information on the plugin's website](https://binfalse.de/software/browser-extensions/yourls-firefox-webextension/).
 
-This page is just a stub and just contains a few screenshotw. You will find [more information on the plugin's website](https://binfalse.de/software/browser-extensions/yourls-firefox-extension/).
+## Key features
 
-## Settings
+* passwordless authentication
+* provide a keyword for the short URL
+* selected text on the web page to use it as keyword
+* automatically copy the resulting short URL to your clipboard
 
-![Screenshot of the settings window](https://binfalse.de/wp-content/uploads/2011/06/yourls-extension-settings-window.png)
 
-## Usage
+## Required Permissions
 
-### Toolbar-button
+* *Access data for all web sites:* The extension needs access to the current website to get the URL and potentially selected text (for keyword suggestions), and the extension needs to access any other URL to communicated with private YOURLS instances.
+* *Input data to the clipboard:* The extension is able to copy the shortened URL to clipboard (can be configured in the extension's preferences) 
 
-![Toolbar-button](https://binfalse.de/wp-content/uploads/2011/06/yourls-extension-toolbar.png)
+## UI Integration
 
-### Context-menu
+### A toolbar button to shorten the current web page
 
-![Context-menu](https://binfalse.de/wp-content/uploads/2011/06/yourls-extension-context.png)
+![toolbar button of the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/popup.png)
 
-### Context-menu when selected
+### Selected text automatically becomes a keyword
 
-![Context-menu when selected](https://binfalse.de/wp-content/uploads/2011/06/yourls-extension-context-selection.png)
+![select text for the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/selection.png)
 
-### Statusbar-button
+### Shorten link targets
 
-![Statusbar-button](https://binfalse.de/wp-content/uploads/2011/06/yourls-extension-statusbar.png)
+![shorten link targets using the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/link.png)
 
-### Provide a keyword
 
-![Provide a keyword](https://binfalse.de/wp-content/uploads/2011/06/yourls-extension-keyword.png)
+## Preferences
+
+![Preferences of the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/preferences.png)
+
 
 ## License
 

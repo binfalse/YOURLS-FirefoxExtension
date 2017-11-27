@@ -4,7 +4,7 @@
 
 This is an extension for Mozilla Firefox to interact with the open source [URL shortener Yourls](http://yourls.org/).
 
-This page is just a stub and just contains a few screenshotw. You will find [more information on the plugin's website](https://binfalse.de/software/browser-extensions/yourls-firefox-extension/).
+This page is just a stub and just contains a few screenshots. You will find [more information on the plugin's website](https://binfalse.de/software/browser-extensions/yourls-firefox-extension/).
 
 ## Settings
 
