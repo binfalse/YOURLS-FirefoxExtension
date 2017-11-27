@@ -1,7 +1,7 @@
 # YOURLS Firefox extension
 
 This is an extension for Mozilla's Firefox to interact with the open source [URL shortener Yourls](http://yourls.org/).
-This page is just a stub and just contains a few screenshots. You will find [more information on the plugin's website](https://binfalse.de/software/browser-extensions/yourls-firefox-webextension/).
+This page is just a stub and just contains a few screenshots. You will find [more information on the plugin's website](https://binfalse.de/software/browser-extensions/yourls-firefox-webextension/) and at [Mozilla's add-on platform](https://addons.mozilla.org/en-US/firefox/addon/yourls-shortener/).
 
 ## Key features
 
@@ -20,20 +20,20 @@ This page is just a stub and just contains a few screenshots. You will find [mor
 
 ### A toolbar button to shorten the current web page
 
-![toolbar button of the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/popup.png)
+![toolbar button of the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/popup-border.png)
 
 ### Selected text automatically becomes a keyword
 
-![select text for the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/selection.png)
+![select text for the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/selection-border.png)
 
 ### Shorten link targets
 
-![shorten link targets using the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/link.png)
+![shorten link targets using the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/link-border.png)
 
 
 ## Preferences
 
-![Preferences of the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/preferences.png)
+![Preferences of the YOURLS shortener](https://binfalse.de/assets/media/pics/2017/yourls-firefox/preferences-border.png)
 
 
 ## License
