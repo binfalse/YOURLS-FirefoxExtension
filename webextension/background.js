@@ -104,6 +104,8 @@ function YOURLS(settings, options, expected) {
 	
 	
 	apiURLwSlash = settings.api;
+	if (apiURLwSlash.substr(-1) != '/')
+		apiURLwSlash += '/';
 	var apiURL = apiURLwSlash + 'yourls-api.php';
 	
 	
