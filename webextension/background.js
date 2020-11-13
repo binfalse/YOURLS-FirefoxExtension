@@ -130,7 +130,7 @@ function YOURLS(settings, options, expected) {
 			if (xhr.readyState == 4) {
 				clearTimeout(rqTimer);
 				if ((xhr.status == 200) || (xhr.status == 201)) {
-					var uMatch = xhr.responseText.match (new RegExp(expMatchString));
+					var uMatch = xhr.responseText.match(new RegExp(expMatchString, 'm'));
 					if (uMatch) {
 						resolve ({url: uMatch[1], originalRespons: xhr.responseText});
 					} else {
