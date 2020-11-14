@@ -7,7 +7,9 @@ This is an extension for the Firefox browser to shorten URLs using YOURLS.
 The original version is available in the [legacy](legacy/) directory. It was initially developed in 2011. However, the techniques back then are no longer supported by Firefox.
 
 A new version of the extension is available in the [webextension](webextension/) directory.
-It was rewritten in 2017. Big thanks to @xppppp, @yfdyh000, @joshp23, @wilcochris, and @tessus for their contributions!
+It was rewritten in 2017.
+
+Many thanks to @xppppp, @yfdyh000, @joshp23, @wilcochris, @tessus, and @airtonzanon for their contributions!
 
 Find more information about the extension
 
