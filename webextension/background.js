@@ -17,6 +17,14 @@ function getSelectionText() {
 	return text;
 }
 
+function getLinkTarget() {
+  if (document.activeElement && document.activeElement.tagName.toLowerCase() === 'a' && document.activeElement.href) {
+    return document.activeElement.href;
+  }
+	return '';
+}
+
+
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === "yourls") {
@@ -62,6 +70,18 @@ browser.runtime.onMessage.addListener (function(request, sender, sendResponse)
 				sendResponse ({selection: results[0]});
 			else
 				sendResponse ({selection: ""});
+		});
+		return true;
+	}
+	else if (request.method == "getLinkTarget")
+	{
+		chrome.tabs.executeScript({
+			code: '(' + getLinkTarget.toString() + ')()'
+		}, function (results) {
+			if (Array.isArray (results) && results.length == 1)
+				sendResponse ({linkTarget: results[0]});
+			else
+				sendResponse ({linkTarget: ""});
 		});
 		return true;
 	}

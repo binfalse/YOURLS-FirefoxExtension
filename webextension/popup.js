@@ -84,6 +84,14 @@
 					updateResult("", "Working...");
 					shorten (settings, tabs[0].url);
 				}
+				
+				
+        browser.runtime.sendMessage({method: "getLinkTarget"}).then (function (response) {
+          if (response.linkTarget) {
+            updateSource(response.linkTarget);
+          }
+        }, function (error) {updateError ("Communication error within the extension!", communicationErrorMsg);});
+				
 			};
 			var _tabQueryError = function(error) {
 				updateSource('Cannot get current tab URL!');
