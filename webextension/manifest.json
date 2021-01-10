@@ -1,7 +1,7 @@
 {
 		"manifest_version": 2,
 		"name": "YOURLS WebExtension",
-		"version": "2.5.1",
+		"version": "2.5.2",
 		"description": "Shorten URLs with your own YOURLS instance",
 		"homepage_url": "https://binfalse.de/software/browser-extensions/yourls-firefox-webextension/",
 		"applications": {
